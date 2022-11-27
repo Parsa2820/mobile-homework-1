@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
             is.close();
             String json = new String(buffer, StandardCharsets.UTF_8);
             Course[] courses = gson.fromJson(json, Course[].class);
-            Department department = new Department(file, courses);
+            String departmentName = file.substring(0, file.lastIndexOf("."));
+            Department department = new Department(departmentName, courses);
             departments.add(department);
         }
 

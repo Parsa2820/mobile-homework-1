@@ -5,6 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -12,14 +15,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 import ir.parsa2820.terminator.databinding.FragmentCoursesBinding;
 import ir.parsa2820.terminator.model.Course;
@@ -49,6 +48,35 @@ public class CoursesFragment extends Fragment {
         ArrayList<Course> courses = new ArrayList<>(Arrays.asList(coursesArray));
         Log.e("kir", courses.get(0).getName());
         recyclerView.setAdapter(new CourseAdapter(courses));
+
+
+        final Spinner spinner = binding.spinnerDepartments;
+        ArrayList<String> departments = new ArrayList<>(Collections.singletonList("All"));
+        for (Department d : InMemoryStorage.getInstance().getDepartments()) {
+            departments.add(d.getName());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, departments);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String chosenDepartment = parent.getItemAtPosition(position).toString();
+                ArrayList<Course> courses = new ArrayList<>();
+                for (Department d : InMemoryStorage.getInstance().getDepartments()) {
+                    if (chosenDepartment.equals("All") || d.getName().equals(chosenDepartment)) {
+                        courses.addAll(Arrays.asList(d.getCourses()));
+                    }
+                }
+                recyclerView.setAdapter(new CourseAdapter(courses));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         return root;
     }
 
