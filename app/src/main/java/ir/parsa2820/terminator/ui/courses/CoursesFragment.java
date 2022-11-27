@@ -1,4 +1,4 @@
-package ir.parsa2820.terminator.ui.home;
+package ir.parsa2820.terminator.ui.courses;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

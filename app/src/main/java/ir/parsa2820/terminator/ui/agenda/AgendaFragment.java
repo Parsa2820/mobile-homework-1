@@ -1,4 +1,4 @@
-package ir.parsa2820.terminator.ui.dashboard;
+package ir.parsa2820.terminator.ui.agenda;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

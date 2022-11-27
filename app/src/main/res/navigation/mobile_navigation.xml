@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_courses"
-        android:name="ir.parsa2820.terminator.ui.home.CoursesFragment"
+        android:name="ir.parsa2820.terminator.ui.courses.CoursesFragment"
         android:label="@string/title_courses"
         tools:layout="@layout/fragment_courses" />
 
     <fragment
         android:id="@+id/navigation_agenda"
-        android:name="ir.parsa2820.terminator.ui.dashboard.AgendaFragment"
+        android:name="ir.parsa2820.terminator.ui.agenda.AgendaFragment"
         android:label="@string/title_agenda"
         tools:layout="@layout/fragment_agenda" />
 
