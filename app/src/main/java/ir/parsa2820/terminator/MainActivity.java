@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import ir.parsa2820.terminator.databinding.ActivityMainBinding;
 import ir.parsa2820.terminator.model.Course;
 import ir.parsa2820.terminator.model.Department;
+import ir.parsa2820.terminator.storage.InMemoryStorage;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            InMemoryStorage.getInstance().setDepartments(loadDepartments());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -43,20 +49,21 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        try {
-            ArrayList<Department> departments = loadDepartment();
-            for (Department department : departments) {
-                Log.d("Department", department.getName());
-                for (Course course : department.getCourses()) {
-                    Log.d("Course", course.getName());
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        // try {
+        //     ArrayList<Department> departments = loadDepartment();
+        //     for (Department department : departments) {
+        //         Log.d("Department", department.getName());
+        //         for (Course course : department.getCourses()) {
+        //             Log.d("Course", course.getName());
+        //         }
+        //     }
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
     }
 
-    private ArrayList<Department> loadDepartment() throws IOException {
+    private ArrayList<Department> loadDepartments() throws IOException {
         Gson gson = new Gson();
         String[] files = getAssets().list(COURSE_DATA_DIRECTORY);
         ArrayList<Department> departments = new ArrayList<>();
