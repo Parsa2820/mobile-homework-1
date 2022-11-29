@@ -1,9 +1,11 @@
 package ir.parsa2820.terminator.ui.courses;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,11 +21,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     private final ArrayList<Course> localDataSet;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final LinearLayout itemCourse;
         private final TextView courseNameTextView;
         private final TextView instructorTextView;
 
         public ViewHolder(View view) {
             super(view);
+            itemCourse = (LinearLayout) view.findViewById(R.id.itemCourse);
             courseNameTextView = (TextView) view.findViewById(R.id.courseName);
             instructorTextView = (TextView) view.findViewById(R.id.instructor);
         }
@@ -34,6 +38,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
         public TextView getInstructorTextView() {
             return instructorTextView;
+        }
+
+        public LinearLayout getItemCourse() {
+            return itemCourse;
         }
     }
 
@@ -54,6 +62,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         viewHolder.getCourseNameTextView().setText(localDataSet.get(position).getName());
         viewHolder.getInstructorTextView().setText(localDataSet.get(position).getInstructor());
+        viewHolder.getItemCourse().setOnClickListener(v -> {
+            Log.e("CourseAdapter", "Clicked on " + localDataSet.get(position).getName());
+        });
     }
 
     @Override
