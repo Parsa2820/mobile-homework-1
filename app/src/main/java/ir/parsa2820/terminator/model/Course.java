@@ -22,15 +22,39 @@ public class Course {
     @SerializedName("exam_time")
     private String examTime;
 
-    public Course(String name) {
-        this.name = name;
+    public String getInfo() {
+        return info;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public String getCourseNumber() {
+        return courseNumber;
     }
 
     public String getName() {
         return name;
     }
 
+    public int getUnits() {
+        return units;
+    }
+
     public String getInstructor() {
         return instructor;
+    }
+
+    public String getTimes() {
+        return times;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getExamTime() {
+        return examTime;
     }
 }

@@ -1,6 +1,7 @@
 package ir.parsa2820.terminator.ui.courses;
 
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
+import ir.parsa2820.terminator.CourseActivity;
 import ir.parsa2820.terminator.R;
 import ir.parsa2820.terminator.model.Course;
 
@@ -63,7 +67,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         viewHolder.getCourseNameTextView().setText(localDataSet.get(position).getName());
         viewHolder.getInstructorTextView().setText(localDataSet.get(position).getInstructor());
         viewHolder.getItemCourse().setOnClickListener(v -> {
-            Log.e("CourseAdapter", "Clicked on " + localDataSet.get(position).getName());
+            Intent intent = new Intent(v.getContext(), CourseActivity.class);
+            Gson gson = new Gson();
+            String courseJson = gson.toJson(localDataSet.get(position));
+            intent.putExtra("course", courseJson);
+            v.getContext().startActivity(intent);
         });
     }
 
