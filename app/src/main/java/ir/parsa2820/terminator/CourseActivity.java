@@ -52,9 +52,7 @@ public class CourseActivity extends AppCompatActivity {
         courseNumber.setText("Course Number: " + course.getCourseNumber());
         courseUnits.setText("Units: " + String.valueOf(course.getUnits()));
         StringBuilder times = new StringBuilder();
-        times.append('\n');
         for (CourseEvent event : course.getCourseEvents()) {
-            times.append('\t');
             times.append(WeekDayEnum.values()[event.getDay()]);
             times.append(" ");
             times.append(event.getStart());
@@ -63,7 +61,7 @@ public class CourseActivity extends AppCompatActivity {
             times.append('\n');
         }
         times.setLength(times.length() - 1);
-        courseTimes.setText("Times: " + times);
+        courseTimes.setText(times);
         courseExamTime.setText("Exam Time: " + course.getExamTime());
         courseInfo.setText("Info: " + course.getInfo());
 

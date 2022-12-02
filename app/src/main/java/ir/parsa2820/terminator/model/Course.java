@@ -70,6 +70,8 @@ public class Course {
         for (CourseEvent event : courseEvents) {
             event.setCourse(this);
         }
+        // sort by day
+        Arrays.sort(courseEvents, (o1, o2) -> o1.getDay() - o2.getDay());
         return new ArrayList<>(Arrays.asList(courseEvents));
     }
 

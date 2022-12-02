@@ -3,6 +3,8 @@ package ir.parsa2820.terminator.model;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 import ir.parsa2820.terminator.ui.agenda.CourseEvent;
@@ -40,16 +42,16 @@ public class Agenda {
 
             for (CourseEvent courseEvent : courseEvents) {
                 WeekDay weekDay = weekDays.get(courseEvent.getDay());
-                int insertIndex = 0;
-                for (int i = 0; i < weekDay.getCourseEvents().size(); i++) {
-                    if (weekDay.getCourseEvents().get(i).getStart() > courseEvent.getStart()){
-                        insertIndex = i;
-                        break;
-                    }
-                }
-                weekDay.getCourseEvents().add(insertIndex, courseEvent);
+                weekDay.getCourseEvents().add(courseEvent);
             }
         }
+
+        for (WeekDay weekDay : weekDays) {
+            CourseEvent[] courseEvents = weekDay.getCourseEvents().toArray(new CourseEvent[0]);
+            Arrays.sort(courseEvents, (o1, o2) -> Float.compare(o1.getStart(), o2.getStart()));
+            weekDay.setCourseEvents(new ArrayList<CourseEvent>(Arrays.asList(courseEvents)));
+        }
+
         return weekDays;
     }
 

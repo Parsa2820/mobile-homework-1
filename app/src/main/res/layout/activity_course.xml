@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -38,15 +39,7 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/activityInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/placeholder"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/activityId"
+                android:id="@+id/activityCourseTimes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -54,7 +47,7 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/activityCourseTimes"
+                android:id="@+id/activityId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -92,6 +85,14 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/placeholder"
                 android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/activityInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/placeholder"
+                android:textSize="20sp" />
 
             <Spinner
                 android:id="@+id/agendaSpinner"

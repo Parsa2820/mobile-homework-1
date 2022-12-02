@@ -18,5 +18,9 @@ public class WeekDay {
     public ArrayList<CourseEvent> getCourseEvents() {
         return courseEvents;
     }
+
+    public void setCourseEvents(ArrayList<CourseEvent> courseEvents) {
+        this.courseEvents = courseEvents;
+    }
 }
 
