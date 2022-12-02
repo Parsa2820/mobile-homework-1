@@ -3,13 +3,20 @@ package ir.parsa2820.terminator;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 import ir.parsa2820.terminator.model.Course;
+import ir.parsa2820.terminator.storage.InMemoryStorage;
 
 public class CourseActivity extends AppCompatActivity {
 
@@ -37,5 +44,24 @@ public class CourseActivity extends AppCompatActivity {
         courseTimes.setText("Times: " + course.getTimes());
         courseExamTime.setText("Exam Time: " + course.getExamTime());
         courseInfo.setText("Info: " + course.getInfo());
+
+        Spinner spinner = findViewById(R.id.agendaSpinner);
+        ArrayList<String> agendaNames = InMemoryStorage.getInstance().getAgendaNames();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, agendaNames);
+        spinner.setAdapter(adapter);
+
+        Button addToAgenda = findViewById(R.id.addToAgendaButton);
+        addToAgenda.setOnClickListener(v -> {
+            Log.e("inja", "to agenda");
+            Object selectedItem = spinner.getSelectedItem();
+            if (selectedItem == null) {
+                return;
+            }
+            String agendaName = selectedItem.toString();
+            if (InMemoryStorage.getInstance().getAgenda(agendaName) == null) {
+                return;
+            }
+            InMemoryStorage.getInstance().addToAgenda(agendaName, course.getCourseId());
+        });
     }
 }

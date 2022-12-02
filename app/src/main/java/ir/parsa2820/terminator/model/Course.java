@@ -1,6 +1,12 @@
 package ir.parsa2820.terminator.model;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import ir.parsa2820.terminator.ui.agenda.CourseEvent;
 
 public class Course {
     @SerializedName("info")
@@ -15,7 +21,7 @@ public class Course {
     private int units;
     @SerializedName("instructor")
     private String instructor;
-    @SerializedName("times")
+    @SerializedName("class_times")
     private String times;
     @SerializedName("id")
     private String id;
@@ -56,5 +62,11 @@ public class Course {
 
     public String getExamTime() {
         return examTime;
+    }
+
+    public ArrayList<CourseEvent> getCourseEvents() {
+        Gson gson = new Gson();
+        CourseEvent[] courseEvents = gson.fromJson(times, CourseEvent[].class);
+        return new ArrayList<>(Arrays.asList(courseEvents));
     }
 }

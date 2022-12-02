@@ -1,23 +1,31 @@
 package ir.parsa2820.terminator.storage;
 
+import android.app.Activity;
+import android.app.Application;
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.IBinder;
+
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import ir.parsa2820.terminator.ContextProvider;
 import ir.parsa2820.terminator.model.Agenda;
 import ir.parsa2820.terminator.model.Course;
 import ir.parsa2820.terminator.model.Department;
 
-public class InMemoryStorage {
+public class InMemoryStorage{
     private static InMemoryStorage instance;
     private ArrayList<Department> departments;
     private ArrayList<Course> courses;
-    private final AgendaDbHelper agendaDbHelper;
+    private AgendaDbHelper agendaDbHelper;
 
     private InMemoryStorage() {
-       agendaDbHelper = new AgendaDbHelper();
     }
 
     public static InMemoryStorage getInstance() {
@@ -25,6 +33,10 @@ public class InMemoryStorage {
             instance = new InMemoryStorage();
         }
         return instance;
+    }
+
+    public void setContext(Context context) {
+        agendaDbHelper = new AgendaDbHelper(context);
     }
 
     public void setDepartments(ArrayList<Department> departments) {
@@ -45,7 +57,7 @@ public class InMemoryStorage {
 
     public Course getCourse(String courseId) {
         for (Course c : courses) {
-            if (c.getId().equals(courseId)) {
+            if (c.getCourseId().equals(courseId)) {
                 return c;
             }
         }
@@ -67,6 +79,9 @@ public class InMemoryStorage {
         SQLiteDatabase db = agendaDbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + AgendaContract.AgendaEntry.TABLE_NAME + " WHERE " +
                 AgendaContract.AgendaEntry.COLUMN_NAME_NAME + " = '" + name + "'", null);
+        if (cursor.getCount() == 0) {
+            return null;
+        }
         ArrayList<Course> courses = new ArrayList<>();
         while (cursor.moveToNext()) {
             int courseIdIndex = cursor.getColumnIndex(AgendaContract.AgendaEntry.COLUMN_NAME_COURSE_ID);
@@ -77,5 +92,33 @@ public class InMemoryStorage {
         }
         cursor.close();
         return new Agenda(name, courses);
+    }
+
+    public ArrayList<Agenda> getAgendas() {
+        SQLiteDatabase db = agendaDbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + AgendaContract.AgendaEntry.TABLE_NAME, null);
+        ArrayList<Agenda> agendas = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            int nameIndex = cursor.getColumnIndex(AgendaContract.AgendaEntry.COLUMN_NAME_NAME);
+            String name = cursor.getString(nameIndex);
+            if (getAgenda(name) != null) {
+                agendas.add(getAgenda(name));
+            }
+        }
+        cursor.close();
+        return agendas;
+    }
+
+    public ArrayList<String> getAgendaNames() {
+        SQLiteDatabase db = agendaDbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT DISTINCT " + AgendaContract.AgendaEntry.COLUMN_NAME_NAME + " FROM " + AgendaContract.AgendaEntry.TABLE_NAME, null);
+        ArrayList<String> names = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            int nameIndex = cursor.getColumnIndex(AgendaContract.AgendaEntry.COLUMN_NAME_NAME);
+            String name = cursor.getString(nameIndex);
+            names.add(name);
+        }
+        cursor.close();
+        return names;
     }
 }

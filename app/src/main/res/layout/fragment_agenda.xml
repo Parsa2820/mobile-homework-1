@@ -27,10 +27,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                android:text="@string/agenda_name_plain_text"
-                android:importantForAutofill="no" />
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:minHeight="48dp" />
 
             <Button
                 android:id="@+id/createAgendaButton"

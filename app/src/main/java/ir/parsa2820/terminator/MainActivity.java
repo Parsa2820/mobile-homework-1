@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         try {
             InMemoryStorage.getInstance().setDepartments(loadDepartments());
+            InMemoryStorage.getInstance().setContext(this);
         } catch (IOException e) {
             e.printStackTrace();
         }

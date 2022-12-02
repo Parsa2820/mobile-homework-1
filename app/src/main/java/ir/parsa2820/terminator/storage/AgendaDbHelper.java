@@ -1,5 +1,6 @@
 package ir.parsa2820.terminator.storage;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -9,14 +10,14 @@ public class AgendaDbHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + AgendaContract.AgendaEntry.TABLE_NAME + " (" +
-                    AgendaContract.AgendaEntry.COLUMN_NAME_NAME + " TEXT PRIMARY KEY," +
+                    AgendaContract.AgendaEntry.COLUMN_NAME_NAME + " TEXT," +
                     AgendaContract.AgendaEntry.COLUMN_NAME_COURSE_ID + " TEXT)";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + AgendaContract.AgendaEntry.TABLE_NAME;
 
-    public AgendaDbHelper() {
-        super(null, DATABASE_NAME, null, DATABASE_VERSION);
+    public AgendaDbHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
