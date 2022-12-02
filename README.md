@@ -1,10 +1,10 @@
 # mobile-homework-1
 
-** Mobile Programming Course Homework 1 **
+**Mobile Programming Course Homework 1**
 
-** Parsa Mohammadian - 98102284 **
+**Parsa Mohammadian - 98102284**
 
-** Sara Azarnoush - 98170668 **
+**Sara Azarnoush - 98170668**
 
 Fall 2022
 
@@ -24,6 +24,8 @@ The main activity which is `MainActivity` consists of a `CoursesFragment` and a 
 
 There is also a `CourseActivity` which is used for showing the details of a course when a course is clicked in `CoursesFragment` or `AgendaFragment`. 
 This activity has two buttons for adding and removing a course from the agenda.
+
+Agenda data is stored in SQLite database and persists between application launches.
 
 ## Screenshots
 . | . | .
