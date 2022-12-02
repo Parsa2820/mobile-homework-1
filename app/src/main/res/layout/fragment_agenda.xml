@@ -46,7 +46,8 @@
             android:id="@+id/agendasSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp" />
+            android:layout_marginHorizontal="100dp"
+            android:minHeight="98dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/agendaRecyclerView"

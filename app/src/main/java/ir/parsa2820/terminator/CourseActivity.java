@@ -3,8 +3,12 @@ package ir.parsa2820.terminator;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -76,7 +80,6 @@ public class CourseActivity extends AppCompatActivity {
                 return;
             }
             String agendaName = selectedItem.toString();
-            // confirmaion dialog
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Confirmation");
             builder.setMessage("Are you sure you want to add this course to " + agendaName + "?");
@@ -91,11 +94,58 @@ public class CourseActivity extends AppCompatActivity {
 
                 InMemoryStorage.getInstance().addToAgenda(agendaName, course.getCourseId());
                 Toast.makeText(this, "Course added to agenda", Toast.LENGTH_LONG).show();
+                finish();
             });
             builder.setNegativeButton("No", (dialog, which) -> {
                 // do nothing
             });
             builder.show();
+        });
+
+        Button deleteFromAgenda = findViewById(R.id.deleteFromAgendaButton);
+        deleteFromAgenda.setOnClickListener(v -> {
+            Object selectedItem = spinner.getSelectedItem();
+            if (selectedItem == null) {
+                Toast.makeText(this, "No agenda selected", Toast.LENGTH_LONG).show();
+                return;
+            }
+            String agendaName = selectedItem.toString();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Confirmation");
+            builder.setMessage("Are you sure you want to delete this course from " + agendaName + "?");
+            builder.setPositiveButton("Yes", (dialog, which) -> {
+                InMemoryStorage.getInstance().deleteFromAgenda(agendaName, course.getCourseId());
+                Toast.makeText(this, "Course deleted from agenda", Toast.LENGTH_LONG).show();
+                finish();
+            });
+            builder.setNegativeButton("No", (dialog, which) -> {
+                // do nothing
+            });
+            builder.show();
+        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String agendaName = parent.getItemAtPosition(position).toString();
+                Agenda agenda = InMemoryStorage.getInstance().getAgenda(agendaName);
+                if (agenda == null) {
+                    return;
+                }
+                if (agenda.hasCourse(course.getCourseId())) {
+                    addToAgenda.setEnabled(false);
+                    deleteFromAgenda.setEnabled(true);
+                } else {
+                    addToAgenda.setEnabled(true);
+                    deleteFromAgenda.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                addToAgenda.setEnabled(false);
+                deleteFromAgenda.setEnabled(false);
+            }
         });
     }
 }

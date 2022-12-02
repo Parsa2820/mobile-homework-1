@@ -59,4 +59,11 @@ public class Agenda {
         }
         return false;
     }
+
+    public boolean hasCourse(String courseId) {
+        for (Course c : courses) {
+            if (c.getCourseId().equals(courseId)) return true;
+        }
+        return false;
+    }
 }

@@ -75,6 +75,13 @@ public class InMemoryStorage{
                 AgendaContract.AgendaEntry.COLUMN_NAME_COURSE_ID + ") VALUES ('" + name + "', '" + courseId + "')");
     }
 
+    public void deleteFromAgenda(String name, String courseId) {
+        SQLiteDatabase db = agendaDbHelper.getWritableDatabase();
+        db.execSQL("DELETE FROM " + AgendaContract.AgendaEntry.TABLE_NAME + " WHERE " +
+                AgendaContract.AgendaEntry.COLUMN_NAME_NAME + " = '" + name + "' AND " +
+                AgendaContract.AgendaEntry.COLUMN_NAME_COURSE_ID + " = '" + courseId + "'");
+    }
+
     public Agenda getAgenda(String name) {
         SQLiteDatabase db = agendaDbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + AgendaContract.AgendaEntry.TABLE_NAME + " WHERE " +
