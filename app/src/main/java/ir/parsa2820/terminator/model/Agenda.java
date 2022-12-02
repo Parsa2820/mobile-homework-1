@@ -52,4 +52,11 @@ public class Agenda {
         }
         return weekDays;
     }
+
+    public boolean hasOverlap(Course course) {
+        for (Course c : courses) {
+            if (c.hasOverlap(course)) return true;
+        }
+        return false;
+    }
 }

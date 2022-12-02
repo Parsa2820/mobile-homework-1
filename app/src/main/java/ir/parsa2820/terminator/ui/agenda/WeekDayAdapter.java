@@ -1,5 +1,6 @@
 package ir.parsa2820.terminator.ui.agenda;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
+import ir.parsa2820.terminator.CourseActivity;
 import ir.parsa2820.terminator.R;
 import ir.parsa2820.terminator.model.Agenda;
 
@@ -56,6 +60,13 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
             linearLayout.setLayoutParams(params);
             linearLayout.setOrientation(LinearLayout.VERTICAL);
             linearLayout.setBackground(holder.coursesLinearLayout.getContext().getDrawable(R.drawable.box));
+            linearLayout.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), CourseActivity.class);
+                Gson gson = new Gson();
+                String courseJson = gson.toJson(courseEvent.getCourse());
+                intent.putExtra("course", courseJson);
+                v.getContext().startActivity(intent);
+            });
             TextView courseNameTextView = new TextView(linearLayout.getContext());
             courseNameTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             courseNameTextView.setTextSize(24);

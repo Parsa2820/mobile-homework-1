@@ -1,5 +1,6 @@
 package ir.parsa2820.terminator;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -15,8 +17,12 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import ir.parsa2820.terminator.model.Agenda;
 import ir.parsa2820.terminator.model.Course;
 import ir.parsa2820.terminator.storage.InMemoryStorage;
+import ir.parsa2820.terminator.ui.agenda.CourseEvent;
+import ir.parsa2820.terminator.ui.agenda.WeekDayAdapter;
+import ir.parsa2820.terminator.ui.agenda.WeekDayEnum;
 
 public class CourseActivity extends AppCompatActivity {
 
@@ -41,7 +47,19 @@ public class CourseActivity extends AppCompatActivity {
         courseId.setText("Course ID: " + course.getCourseId());
         courseNumber.setText("Course Number: " + course.getCourseNumber());
         courseUnits.setText("Units: " + String.valueOf(course.getUnits()));
-        courseTimes.setText("Times: " + course.getTimes());
+        StringBuilder times = new StringBuilder();
+        times.append('\n');
+        for (CourseEvent event : course.getCourseEvents()) {
+            times.append('\t');
+            times.append(WeekDayEnum.values()[event.getDay()]);
+            times.append(" ");
+            times.append(event.getStart());
+            times.append(" - ");
+            times.append(event.getEnd());
+            times.append('\n');
+        }
+        times.setLength(times.length() - 1);
+        courseTimes.setText("Times: " + times);
         courseExamTime.setText("Exam Time: " + course.getExamTime());
         courseInfo.setText("Info: " + course.getInfo());
 
@@ -52,16 +70,32 @@ public class CourseActivity extends AppCompatActivity {
 
         Button addToAgenda = findViewById(R.id.addToAgendaButton);
         addToAgenda.setOnClickListener(v -> {
-            Log.e("inja", "to agenda");
             Object selectedItem = spinner.getSelectedItem();
             if (selectedItem == null) {
+                Toast.makeText(this, "No agenda selected", Toast.LENGTH_LONG).show();
                 return;
             }
             String agendaName = selectedItem.toString();
-            if (InMemoryStorage.getInstance().getAgenda(agendaName) == null) {
-                return;
-            }
-            InMemoryStorage.getInstance().addToAgenda(agendaName, course.getCourseId());
+            // confirmaion dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Confirmation");
+            builder.setMessage("Are you sure you want to add this course to " + agendaName + "?");
+            builder.setPositiveButton("Yes", (dialog, which) -> {
+                Agenda agenda = InMemoryStorage.getInstance().getAgenda(agendaName);
+                assert agenda != null;
+
+                if (agenda.hasOverlap(course)) {
+                    Toast.makeText(this, "Course overlaps with another course in agenda", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                InMemoryStorage.getInstance().addToAgenda(agendaName, course.getCourseId());
+                Toast.makeText(this, "Course added to agenda", Toast.LENGTH_LONG).show();
+            });
+            builder.setNegativeButton("No", (dialog, which) -> {
+                // do nothing
+            });
+            builder.show();
         });
     }
 }

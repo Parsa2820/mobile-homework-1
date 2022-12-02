@@ -72,4 +72,20 @@ public class Course {
         }
         return new ArrayList<>(Arrays.asList(courseEvents));
     }
+
+    public boolean hasOverlap(Course course) {
+        if (course.getExamTime().equals(examTime)) return true;
+        ArrayList<CourseEvent> courseEvents = getCourseEvents();
+        ArrayList<CourseEvent> courseEvents1 = course.getCourseEvents();
+        for (CourseEvent event : courseEvents) {
+            for (CourseEvent event1 : courseEvents1) {
+                if (event.getDay() == event1.getDay()) {
+                    if (event.getStart() < event1.getEnd() && event.getEnd() > event1.getStart()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

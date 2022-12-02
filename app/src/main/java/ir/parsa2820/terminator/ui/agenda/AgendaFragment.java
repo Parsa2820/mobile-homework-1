@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -52,11 +53,13 @@ public class AgendaFragment extends Fragment {
             String agendaName = agendaNameEditText.getText().toString();
             InMemoryStorage storage = InMemoryStorage.getInstance();
             if (agendaName.isEmpty() || storage.getAgenda(agendaName) != null) {
+                Toast.makeText(getContext(), "Invalid agenda name", Toast.LENGTH_LONG).show();
                 return;
             }
             storage.createAgenda(agendaName);
             agendaNameEditText.setText("");
             updateAgendaSpinner();
+            Toast.makeText(getContext(), "Agenda created", Toast.LENGTH_LONG).show();
         });
 
         agendaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
