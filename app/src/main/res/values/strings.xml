@@ -2,4 +2,7 @@
     <string name="app_name">TermInator</string>
     <string name="title_courses">Courses</string>
     <string name="title_agenda">Agenda</string>
+    <string name="create_agenda">Create</string>
+    <string name="agenda_name_plain_text">Agenda Name</string>
+    <string name="day_name">Day Name</string>
 </resources>
