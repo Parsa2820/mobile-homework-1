@@ -48,6 +48,12 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
         holder.dayNameTextView.setText(weekDay.getDayName());
         for (CourseEvent courseEvent : weekDay.getCourseEvents()) {
             LinearLayout linearLayout = new LinearLayout(holder.coursesLinearLayout.getContext());
+            // margin 8dp
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(50, 10, 50, 10);
+            linearLayout.setLayoutParams(params);
             linearLayout.setOrientation(LinearLayout.VERTICAL);
             linearLayout.setBackground(holder.coursesLinearLayout.getContext().getDrawable(R.drawable.box));
             TextView courseNameTextView = new TextView(linearLayout.getContext());
