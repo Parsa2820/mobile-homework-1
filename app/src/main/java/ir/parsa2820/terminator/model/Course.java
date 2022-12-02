@@ -67,6 +67,9 @@ public class Course {
     public ArrayList<CourseEvent> getCourseEvents() {
         Gson gson = new Gson();
         CourseEvent[] courseEvents = gson.fromJson(times, CourseEvent[].class);
+        for (CourseEvent event : courseEvents) {
+            event.setCourse(this);
+        }
         return new ArrayList<>(Arrays.asList(courseEvents));
     }
 }

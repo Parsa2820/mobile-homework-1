@@ -44,7 +44,23 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull WeekDayAdapter.ViewHolder holder, int position) {
-        holder.dayNameTextView.setText(localDataSet.get(position).getDayName());
+        WeekDay weekDay = localDataSet.get(position);
+        holder.dayNameTextView.setText(weekDay.getDayName());
+        for (CourseEvent courseEvent : weekDay.getCourseEvents()) {
+            LinearLayout linearLayout = new LinearLayout(holder.coursesLinearLayout.getContext());
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+            linearLayout.setBackground(holder.coursesLinearLayout.getContext().getDrawable(R.drawable.box));
+            TextView courseNameTextView = new TextView(linearLayout.getContext());
+            courseNameTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            courseNameTextView.setTextSize(24);
+            courseNameTextView.setText(courseEvent.getCourse().getName());
+            TextView courseTimeTextView = new TextView(linearLayout.getContext());
+            courseTimeTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            courseTimeTextView.setText(courseEvent.getStart() + " - " + courseEvent.getEnd());
+            linearLayout.addView(courseNameTextView);
+            linearLayout.addView(courseTimeTextView);
+            holder.coursesLinearLayout.addView(linearLayout);
+        }
     }
 
     @Override

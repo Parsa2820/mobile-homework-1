@@ -15,9 +15,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import ir.parsa2820.terminator.databinding.FragmentAgendaBinding;
 import ir.parsa2820.terminator.model.Agenda;
@@ -43,6 +45,8 @@ public class AgendaFragment extends Fragment {
         agendaSpinner = binding.agendasSpinner;
         updateAgendaSpinner();
         final RecyclerView agendaRecyclerView = binding.agendaRecyclerView;
+        agendaRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        agendaRecyclerView.setAdapter(new WeekDayAdapter(new ArrayList<>()));
 
         createAgenda.setOnClickListener(v -> {
             String agendaName = agendaNameEditText.getText().toString();
@@ -63,7 +67,8 @@ public class AgendaFragment extends Fragment {
                 if (agenda == null) {
                     return;
                 }
-                // agendaRecyclerView.setAdapter(new AgendaAdapter(agenda));
+                ArrayList<WeekDay> weekDays = agenda.getWeekDays();
+                agendaRecyclerView.setAdapter(new WeekDayAdapter(weekDays));
             }
 
             @Override

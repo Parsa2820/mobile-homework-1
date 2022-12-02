@@ -39,6 +39,15 @@ public class Agenda {
             ArrayList<CourseEvent> courseEvents = course.getCourseEvents();
 
             for (CourseEvent courseEvent : courseEvents) {
+                WeekDay weekDay = weekDays.get(courseEvent.getDay());
+                int insertIndex = 0;
+                for (int i = 0; i < weekDay.getCourseEvents().size(); i++) {
+                    if (weekDay.getCourseEvents().get(i).getStart() > courseEvent.getStart()){
+                        insertIndex = i;
+                        break;
+                    }
+                }
+                weekDay.getCourseEvents().add(insertIndex, courseEvent);
             }
         }
         return weekDays;

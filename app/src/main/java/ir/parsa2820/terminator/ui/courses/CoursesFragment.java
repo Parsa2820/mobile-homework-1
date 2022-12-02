@@ -46,7 +46,6 @@ public class CoursesFragment extends Fragment {
 
         Course[] coursesArray = InMemoryStorage.getInstance().getDepartments().get(0).getCourses();
         ArrayList<Course> courses = new ArrayList<>(Arrays.asList(coursesArray));
-        Log.e("kir", courses.get(0).getName());
         recyclerView.setAdapter(new CourseAdapter(courses));
 
 
